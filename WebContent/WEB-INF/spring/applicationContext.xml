@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/websocket
+        http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+    <context:component-scan base-package="com.trinary" />
+ 	<context:property-placeholder location="/WEB-INF/application.properties" />
+ 	<context:annotation-config />
+ 
+ 	<tx:annotation-driven/>
+ 	
+ 	<bean id="contestDao" class="com.trinary.aftv.persistence.dao.ContestDAOImpl" />
+ 	<bean id="contestService" class="com.trinary.aftv.service.ContestServiceImpl" />
+ 	<bean id="contestResourceAssembler" class="com.trinary.aftv.hateoas.ContestResourceAssemblerImpl" />
+ 	<bean id="contestEntryDao" class="com.trinary.aftv.persistence.dao.ContestEntryDAOImpl" />
+ 	<bean id="contestEntryService" class="com.trinary.aftv.service.ContestEntryServiceImpl" />
+ 	<bean id="contestEntryResourceAssembler" class="com.trinary.aftv.hateoas.ContestEntryResourceAssemblerImpl" />
+ 	<bean id="eventService" class="com.trinary.aftv.service.EventServiceImpl" />
+	
+	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
+		<property name="driverClassName" value="org.h2.Driver" />
+		<property name="url" value="jdbc:h2:${db.filename};MODE=MYSQL" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
+	</bean>
+ 
+ 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+ 		<property name="dataSource" ref="dataSource" />
+ 		<property name="packagesToScan" value="${db.entityPackage}" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+            	<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+ 	</bean>
+ 	
+ 	<bean id="transactionManager"
+    class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+      <property name="sessionFactory" ref="sessionFactory" />
+   </bean>
+ 
+   <bean id="persistenceExceptionTranslationPostProcessor"
+    class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    
+   <websocket:message-broker application-destination-prefix="/app">
+        <websocket:stomp-endpoint path="/stomp">
+            <websocket:sockjs/>
+        </websocket:stomp-endpoint>
+        <websocket:simple-broker prefix="/queue, /topic"/>
+   </websocket:message-broker>
+</beans>
