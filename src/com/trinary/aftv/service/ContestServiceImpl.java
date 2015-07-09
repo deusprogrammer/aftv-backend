@@ -116,15 +116,26 @@ public class ContestServiceImpl implements ContestService {
 
 	@Override
 	public void publishEvent(String uuid, EventDTO event) throws Exception {
+		System.out.println("TRIGGER: " + event.getEventType());
+		
 		Contest contest = this.getByUuid(uuid);
-		ContestEntry entry = contestEntryService.getByContestAndUuid(contest, event.getEntryId());
-		contest.setNowPlaying(entry);
+		ContestEntry entry = null;
+		if (event.getEntryId() != null && event.getEventType().equals("NEXT")) {
+			entry = contestEntryService.getByContestAndUuid(contest, event.getEntryId());
+			contest.setNowPlaying(entry);
+		}
 		contest.setLastEvent(new Date());
 		contestDAO.save(contest);
 		
+		if (event.getEventType().equals("HEARTBEAT")) {
+			return;
+		}
+		
 		EventDataDTO ed = new EventDataDTO();
 		ed.setContest(assembler.toResource(contest));
-		ed.setContestEntry(entryAssembler.toResource(entry));
+		if (entry != null) {
+			ed.setContestEntry(entryAssembler.toResource(entry));
+		}
 		ed.setTrigger(event.getEventType());
 		
 		// Publish message to websocket.

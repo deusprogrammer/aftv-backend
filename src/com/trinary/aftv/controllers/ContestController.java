@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.trinary.aftv.commons.EventDTO;
 import com.trinary.aftv.commons.EventResponseDTO;
@@ -128,6 +129,7 @@ public class ContestController {
 		try {
 			contestService.publishEvent(uuid, event);
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.setMessage("Event failed to publish because of: " + e.getMessage());
 			response.setStatus(EventStatus.FAILURE);
 			return response;
@@ -226,6 +228,40 @@ public class ContestController {
 			return voteAssembler.toResources(votes);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/{uuid}/ui")
+	public ModelAndView displayUi(@PathVariable("uuid") String uuid) {
+		try {
+			Contest contest = contestService.getByUuid(uuid);
+			List<ContestEntry> entries = contestService.getEntries(uuid);
+			ModelAndView model = new ModelAndView();
+			model.setViewName("contest");
+			model.addObject("contest", contestAssembler.toResource(contest));
+			model.addObject("entries", entryAssembler.toResources(entries));
+			
+			return model;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/{uuid}/entry/{entryId}/ui")
+	public ModelAndView displayEntryUi(@PathVariable("uuid") String uuid, @PathVariable("entryId") String entryId) {
+		try {
+			Contest contest = contestService.getByUuid(uuid);
+			ContestEntry entry = contestEntryService.getByContestAndUuid(contest, entryId);
+			List<Vote> votes = contestEntryService.getVotes(contest, entryId);
+			
+			ModelAndView model = new ModelAndView();
+			model.setViewName("entry");
+			model.addObject("entry", entryAssembler.toResource(entry));
+			model.addObject("votes", voteAssembler.toResources(votes));
+			
+			return model;
+		} catch (Exception e) {
 			return null;
 		}
 	}
