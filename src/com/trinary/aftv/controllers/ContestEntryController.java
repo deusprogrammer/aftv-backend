@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.trinary.aftv.hateoas.ContestEntryResource;
 import com.trinary.aftv.hateoas.ContestEntryResourceAssembler;
 import com.trinary.aftv.service.ContestEntryService;
+import com.trinary.aftv.service.ContestService;
 
 @Controller
 @RequestMapping(value="/entry")
 public class ContestEntryController {
+	@Autowired ContestService contestService;
 	@Autowired ContestEntryService contestEntryService;
 	@Autowired ContestEntryResourceAssembler assembler;
 	

@@ -18,6 +18,9 @@ public class Vote {
 	@Column
 	protected Integer value;
 	
+	@Column
+	protected String comment;
+	
 	@ManyToOne
 	@JoinColumn(name="voter", nullable=false)
 	protected Voter voter;
@@ -81,4 +84,20 @@ public class Vote {
 	public void setEntry(ContestEntry entry) {
 		this.entry = entry;
 	}
+
+	/**
+	 * @return the comment
+	 */
+	public String getComment() {
+		return comment;
+	}
+
+	/**
+	 * @param comment the comment to set
+	 */
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	
+	
 }

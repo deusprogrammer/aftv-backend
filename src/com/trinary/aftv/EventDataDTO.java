@@ -3,7 +3,7 @@ package com.trinary.aftv;
 import com.trinary.aftv.hateoas.ContestEntryResource;
 import com.trinary.aftv.hateoas.ContestResource;
 
-public class EventData {
+public class EventDataDTO {
 	protected ContestResource contest;
 	protected ContestEntryResource contestEntry;
 	protected String trigger;

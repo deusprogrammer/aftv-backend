@@ -23,5 +23,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/trinary-generic-dao"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/aftv-commons"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

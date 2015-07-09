@@ -1,5 +1,6 @@
 package com.trinary.aftv.persistence.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,6 +27,9 @@ public class Contest {
 	
 	@Column
 	protected String description;
+	
+	@Column
+	protected Date lastEvent;
 	
 	@OneToOne
 	protected ContestEntry nowPlaying;
@@ -132,5 +136,19 @@ public class Contest {
 	 */
 	public void setEntries(List<ContestEntry> entries) {
 		this.entries = entries;
+	}
+
+	/**
+	 * @return the lastEvent
+	 */
+	public Date getLastEvent() {
+		return lastEvent;
+	}
+
+	/**
+	 * @param lastEvent the lastEvent to set
+	 */
+	public void setLastEvent(Date lastEvent) {
+		this.lastEvent = lastEvent;
 	}
 }

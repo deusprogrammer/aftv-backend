@@ -24,6 +24,13 @@
  	<bean id="contestEntryDao" class="com.trinary.aftv.persistence.dao.ContestEntryDAOImpl" />
  	<bean id="contestEntryService" class="com.trinary.aftv.service.ContestEntryServiceImpl" />
  	<bean id="contestEntryResourceAssembler" class="com.trinary.aftv.hateoas.ContestEntryResourceAssemblerImpl" />
+ 	<bean id="voteDao" class="com.trinary.aftv.persistence.dao.VoteDAOImpl" />
+ 	<bean id="voteService" class="com.trinary.aftv.service.VoteServiceImpl" />
+ 	<bean id="voteResourceAssembler" class="com.trinary.aftv.hateoas.VoteResourceAssemblerImpl" />
+ 	<bean id="voterDao" class="com.trinary.aftv.persistence.dao.VoterDAOImpl" />
+ 	<bean id="voterService" class="com.trinary.aftv.service.VoterServiceImpl" />
+ 	<bean id="voterResourceAssembler" class="com.trinary.aftv.hateoas.VoterResourceAssemblerImpl" />
+ 	
  	<bean id="eventService" class="com.trinary.aftv.service.EventServiceImpl" />
 	
 	<bean id="dataSource" class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">

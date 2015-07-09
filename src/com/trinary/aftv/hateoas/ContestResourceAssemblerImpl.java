@@ -45,6 +45,7 @@ public class ContestResourceAssemblerImpl extends ResourceAssemblerSupport<Conte
 		resource.setUuid(entity.getUuid());
 		resource.setTitle(entity.getTitle());
 		resource.setDescription(entity.getDescription());
+		resource.setLastEvent(entity.getLastEvent());
 		
 		return resource;
 	}

@@ -18,7 +18,8 @@ public class BaseController {
 	public ResourceSupport get() {
 		ResourceSupport resource = new ResourceSupport();
 		resource.add(linkTo(methodOn(BaseController.class).get()).withSelfRel());
-		resource.add(linkTo(methodOn(ContestController.class).getAll()).withRel("contests"));
+		resource.add(linkTo(methodOn(ContestController.class).getAll(null)).withRel("contests"));
+		resource.add(linkTo(methodOn(ContestController.class).getAll("true")).withRel("active_contests"));
 		resource.add(linkTo(methodOn(ContestEntryController.class).getAll()).withRel("entries"));
 		
 		return resource;

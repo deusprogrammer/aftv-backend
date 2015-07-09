@@ -4,8 +4,12 @@ import java.util.List;
 
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 
+import com.trinary.aftv.controllers.ContestController;
 import com.trinary.aftv.controllers.ContestEntryController;
 import com.trinary.aftv.persistence.entity.ContestEntry;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 public class ContestEntryResourceAssemblerImpl extends ResourceAssemblerSupport<ContestEntry, ContestEntryResource> implements ContestEntryResourceAssembler {
 
@@ -19,6 +23,9 @@ public class ContestEntryResourceAssemblerImpl extends ResourceAssemblerSupport<
 	@Override
 	public ContestEntryResource toResource(ContestEntry entry) {
 		ContestEntryResource resource = this.createResourceWithId(entry.getUuid(), entry);
+		resource.add(linkTo(methodOn(ContestController.class).get(entry.getContest().getUuid())).withRel("contest"));
+		resource.add(linkTo(methodOn(ContestController.class).getVotes(entry.getContest().getUuid(), entry.getUuid())).withRel("votes"));
+		resource.add(linkTo(methodOn(ContestController.class).getThumbnail(null, entry.getContest().getUuid(), entry.getUuid())).withRel("thumbnail"));
 		return resource;
 	}
 

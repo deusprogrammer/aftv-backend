@@ -1,5 +1,6 @@
 package com.trinary.aftv.persistence.entity;
 
+import java.sql.Blob;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -30,6 +32,9 @@ public class ContestEntry {
 	
 	@Column
 	protected String artist;
+	
+	@Lob
+	protected Blob thumbnail;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="entry")
 	protected List<Vote> votes;
@@ -134,5 +139,19 @@ public class ContestEntry {
 	 */
 	public void setContest(Contest contest) {
 		this.contest = contest;
+	}
+
+	/**
+	 * @return the thumbnail
+	 */
+	public Blob getThumbnail() {
+		return thumbnail;
+	}
+
+	/**
+	 * @param thumbnail the thumbnail to set
+	 */
+	public void setThumbnail(Blob thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 }
